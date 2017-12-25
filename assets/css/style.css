@@ -1,0 +1,356 @@
+/* general styling */
+
+body {
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 18px;
+	line-height: 34px;
+	color: #777;
+	/*background-image: "./assets/images/order-of-phoenix.jpg";*/
+	/*background-image: url("../images/order-of-phoenix.jpg");*/
+	background-attachment: fixed;
+
+}
+
+
+
+.main-content, .sidebar {
+	background: #fff;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: .25rem;
+	margin-top: 40px;
+}
+
+
+/* prevent onhover behavior of buttons*/
+.btn-outline-primary.nohover:hover, .btn-outline-primary.nohover:active, .btn-outline-primary.nohover:focus .btn-outline-primary.disabled {
+
+    /* here copy default .btn class styles */
+  color: #4582EC;
+  background-color: transparent;
+  background-image: none;
+  border-color: #4582EC;
+  cursor:default !important;
+    /* or something like that */
+}
+
+.btn.disabled, .btn:disabled {
+  opacity: .95;
+}
+
+.user-clicked .btn-primary {
+ color: #fff!important;
+  background-color: #4582EC!important;
+  border-color: #4582EC!important;
+
+  /*color: #4582EC;*/
+  /*background-color: transparent;*/
+  /*background-image: none;*/
+  /*border-color: #4582EC;*/
+
+           box-shadow: 0 0 0 0.2rem rgba(69, 130, 236, 0.5);
+}
+
+/*.card-header {
+	background: #fff;
+}
+*/
+
+.progress {
+	height: 2em;
+
+}
+
+#timer {
+	width: 100%;
+}
+
+.question-card, .score-card, .game-results-card {
+	margin-bottom: 40px;
+}
+
+#game-results-container .question-card {
+	margin-right: 10%;
+}
+
+#question-card-container .question-card .card-header{
+	/*margin-left: auto;*/
+	color: #ccc !important;
+	background-color: #4582EC !important
+
+}
+
+
+
+
+.container.wrapper {
+	/* this top padding is used to offset the navbar's absolute positioning.  For smaller viewport, media query is used to remove top-padding and change navbar positioning to static */
+	padding-top: 120px;
+	padding-bottom: 40px;
+	margin-bottom: 40px;
+}
+
+.btn-square {
+	border-radius: 0;
+}
+
+.btn-load-images {
+	margin-right: 1em;
+}
+/*
+.answer-option:hover {
+	background: green;
+	color: white;
+}*/
+
+.answer-option {
+	margin-top: .4em;
+	/*width: 100%;*/
+	/*margin-botto*/
+}
+
+.answer-option .btn {
+	width: 75%;
+}
+
+/*h1,
+h2,
+h3 {
+	font-family: Georgia, Times, "Times New Roman", serif;
+	font-weight: 700;
+	color: #18BC9C;
+}
+
+h1 {
+	padding-bottom: 20px;
+	font-size: 30px;
+	line-height: 49px;
+}
+*/
+/*h2,
+h3 {
+	font-size: 22px;
+}
+*/
+
+/*
+.img-profile {
+	width: 200px;
+	float: left;
+	margin-right: 25px;
+	margin-top: 10px;
+}
+
+p {
+	text-align: justify;
+}
+*/
+
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+/*from http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/*/
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 105px;
+}
+
+
+
+.footer {
+	/*padding: 30px 0;*/
+	clear: both;
+	font-size: 12px;
+
+	color: #000;
+	text-align: center;
+	/*background: #666;*/
+	/*background: #2C3E50;*/
+	/*border-top: 8px solid #18BC9C;*/
+	/*border-top: 8px solid #333;*/
+	box-sizing: border-box;
+
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+
+
+	/* Set the fixed height of the footer here */
+	height: 105px;
+	line-height: 92px;
+}
+
+
+
+
+.nav-item {
+	margin-left: 2em;
+}
+
+
+/* header/navbar */
+
+.nav-link {
+/*
+	When navbar switches to collapsed, it's height decreased a bit due to the nav links (and their top and bottom padding) no longer being there.
+	However, removing the nav-link top and bottom padding doesn't seem result in unpleasant display, and it prevents the changing navbar size when collapse, so remove nav-link top/bottom padding
+*/
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+
+
+/* portfolio page */
+
+
+.main-content .card-header {
+	border-bottom: 3px solid rgba(0,0,0,0.125);
+}
+
+.sidebar .card-header {
+	border-bottom: 2px solid rgba(0,0,0,0.125);
+}
+
+.card-footer h3 {
+	float: left;
+}
+
+.card-footer .message {
+	float: right;
+}
+
+
+
+.work {
+	margin-bottom: 20px;
+}
+
+.portfolio-grid {
+	/* offset the bottom-margin that is un-needed for the bottom row of the grid */
+	margin-bottom: -20px;
+}
+
+
+.work .card-img-overlay, .work .card-body {
+	padding-left: 0;
+	padding-right: 0;
+	/*width: 100%;*/
+}
+
+.work h3 {
+	/* these are for the styling of the bottoms over the portfolio images (they were headers in assignment one) */
+	/* this looks good for the larger viewports, but gets messed up for smaller ones. Seems to be because of absolute sizes*/
+	position: absolute;
+	/*top: 150px;*/
+	/*bottom: 20px;*/
+	bottom: 10%;
+	/*top: 60%;*/
+	/*left: 0;*/
+	width: 100%;
+
+	padding: 15px;
+	padding: 6% 2%;
+
+	margin-bottom: 0;
+	font-weight: 300;
+	/*line-height: 30px;*/
+	line-height: 150%;
+	color: #fff;
+	background-color: #18BC9C;
+
+	text-align: center;
+	border-bottom: 0;
+
+}
+
+.work h3:hover {
+	background: #149a80;
+}
+
+/*.work .card-footer {
+	background-color: #18BC9C;
+	color: #fff;
+
+}
+*/
+
+
+
+/* contact page */
+
+	/* no custom styles needed  (relying on Bootstrap classes) */
+
+
+
+
+/*media queries*/
+
+/*  	For most of the responsiveness, I relied on bootstrap's built in styles rather than use media queries myself.
+	However, do match the requirements for the AboutMe section, where the Image profile is floated with the first paragraph in some viewport sizes, but not in others,
+	it seemed necessary to add some media queries.
+
+	Also, to make the navbar transaction from absolute positioning to static, it seemed seems necessary to use a media query.
+*/
+
+@media screen and (max-width: 991px) {
+
+	.img-profile {
+		width: 100%;
+		float: none;
+	}
+}
+
+
+
+@media screen and (max-width: 767px) {
+
+	.img-profile {
+		float: left;
+		width: 50%;
+	}
+
+	.nav-item {
+		margin-left: 0!important;
+	}
+}
+
+
+
+@media screen and (max-width: 575px) {
+
+	.img-profile {
+		width: 100%;
+		float: none;
+	}
+
+	/*
+		unstick the navbar so so that it will scroll out of screen, due to presumably small screen that would benefit from extra space
+		Note that in assignent, this feature is requested beginning at 640px viewport. That is where I enabled it for the ResponsivePortfolio project.
+		However, bootstrap grids do not seem to have defined col-SIZE-x elements to break at that width (https://getbootstrap.com/docs/4.0/layout/grid/#grid-options),
+		so I went with the the break that occurs at 575px/576px  (col-x is for width < 576, col-sm-x is for width >= 576px)
+	*/
+
+
+	nav {
+		position: static!important;
+	}
+
+	.container.wrapper {
+		padding-top: 0;
+	}
+
+	.container.wrapper, footer .container {
+		/*min-width: 560px;*/
+		width: 500px;
+
+	}
+
+}
