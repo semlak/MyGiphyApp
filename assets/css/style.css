@@ -22,65 +22,12 @@ body {
 }
 
 
-/* prevent onhover behavior of buttons*/
-.btn-outline-primary.nohover:hover, .btn-outline-primary.nohover:active, .btn-outline-primary.nohover:focus .btn-outline-primary.disabled {
 
-    /* here copy default .btn class styles */
-  color: #4582EC;
-  background-color: transparent;
-  background-image: none;
-  border-color: #4582EC;
-  cursor:default !important;
-    /* or something like that */
-}
-
-.btn.disabled, .btn:disabled {
-  opacity: .95;
-}
-
-.user-clicked .btn-primary {
- color: #fff!important;
-  background-color: #4582EC!important;
-  border-color: #4582EC!important;
-
-  /*color: #4582EC;*/
-  /*background-color: transparent;*/
-  /*background-image: none;*/
-  /*border-color: #4582EC;*/
-
-           box-shadow: 0 0 0 0.2rem rgba(69, 130, 236, 0.5);
-}
 
 /*.card-header {
 	background: #fff;
 }
 */
-
-.progress {
-	height: 2em;
-
-}
-
-#timer {
-	width: 100%;
-}
-
-.question-card, .score-card, .game-results-card {
-	margin-bottom: 40px;
-}
-
-#game-results-container .question-card {
-	margin-right: 10%;
-}
-
-#question-card-container .question-card .card-header{
-	/*margin-left: auto;*/
-	color: #ccc !important;
-	background-color: #4582EC !important
-
-}
-
-
 
 
 .container.wrapper {
@@ -95,58 +42,40 @@ body {
 }
 
 .btn-load-images {
-	margin-right: 1em;
-}
-/*
-.answer-option:hover {
-	background: green;
-	color: white;
-}*/
-
-.answer-option {
-	margin-top: .4em;
-	/*width: 100%;*/
-	/*margin-botto*/
+	margin-right: 1em	;
+	/*margin-bottom: 1em;*/
+	margin-top: 1em;
 }
 
-.answer-option .btn {
-	width: 75%;
+.topic-search-button {
+	margin-top: 1em;
 }
 
-/*h1,
-h2,
-h3 {
-	font-family: Georgia, Times, "Times New Roman", serif;
-	font-weight: 700;
-	color: #18BC9C;
+
+.images-container {
+	width: 100%;
+	box-sizing: border-box;
+	margin-top: 15px;
+	margin-left: 15px;
+	margin-right: 15px;
 }
 
-h1 {
-	padding-bottom: 20px;
-	font-size: 30px;
-	line-height: 49px;
-}
-*/
-/*h2,
-h3 {
-	font-size: 22px;
-}
-*/
-
-/*
-.img-profile {
-	width: 200px;
-	float: left;
-	margin-right: 25px;
+.images-container .card {
 	margin-top: 10px;
 }
 
-p {
-	text-align: justify;
+.images-container img {
+	width: 100%;
+	margin: 0;
 }
-*/
 
+.images-container .card-body {
+	padding:0;
+}
 
+.images-container .card-text {
+	padding: .5em;
+}
 
 
 /* Sticky footer styles
@@ -204,153 +133,4 @@ body {
 */
 	padding-top: 0;
 	padding-bottom: 0;
-}
-
-
-
-/* portfolio page */
-
-
-.main-content .card-header {
-	border-bottom: 3px solid rgba(0,0,0,0.125);
-}
-
-.sidebar .card-header {
-	border-bottom: 2px solid rgba(0,0,0,0.125);
-}
-
-.card-footer h3 {
-	float: left;
-}
-
-.card-footer .message {
-	float: right;
-}
-
-
-
-.work {
-	margin-bottom: 20px;
-}
-
-.portfolio-grid {
-	/* offset the bottom-margin that is un-needed for the bottom row of the grid */
-	margin-bottom: -20px;
-}
-
-
-.work .card-img-overlay, .work .card-body {
-	padding-left: 0;
-	padding-right: 0;
-	/*width: 100%;*/
-}
-
-.work h3 {
-	/* these are for the styling of the bottoms over the portfolio images (they were headers in assignment one) */
-	/* this looks good for the larger viewports, but gets messed up for smaller ones. Seems to be because of absolute sizes*/
-	position: absolute;
-	/*top: 150px;*/
-	/*bottom: 20px;*/
-	bottom: 10%;
-	/*top: 60%;*/
-	/*left: 0;*/
-	width: 100%;
-
-	padding: 15px;
-	padding: 6% 2%;
-
-	margin-bottom: 0;
-	font-weight: 300;
-	/*line-height: 30px;*/
-	line-height: 150%;
-	color: #fff;
-	background-color: #18BC9C;
-
-	text-align: center;
-	border-bottom: 0;
-
-}
-
-.work h3:hover {
-	background: #149a80;
-}
-
-/*.work .card-footer {
-	background-color: #18BC9C;
-	color: #fff;
-
-}
-*/
-
-
-
-/* contact page */
-
-	/* no custom styles needed  (relying on Bootstrap classes) */
-
-
-
-
-/*media queries*/
-
-/*  	For most of the responsiveness, I relied on bootstrap's built in styles rather than use media queries myself.
-	However, do match the requirements for the AboutMe section, where the Image profile is floated with the first paragraph in some viewport sizes, but not in others,
-	it seemed necessary to add some media queries.
-
-	Also, to make the navbar transaction from absolute positioning to static, it seemed seems necessary to use a media query.
-*/
-
-@media screen and (max-width: 991px) {
-
-	.img-profile {
-		width: 100%;
-		float: none;
-	}
-}
-
-
-
-@media screen and (max-width: 767px) {
-
-	.img-profile {
-		float: left;
-		width: 50%;
-	}
-
-	.nav-item {
-		margin-left: 0!important;
-	}
-}
-
-
-
-@media screen and (max-width: 575px) {
-
-	.img-profile {
-		width: 100%;
-		float: none;
-	}
-
-	/*
-		unstick the navbar so so that it will scroll out of screen, due to presumably small screen that would benefit from extra space
-		Note that in assignent, this feature is requested beginning at 640px viewport. That is where I enabled it for the ResponsivePortfolio project.
-		However, bootstrap grids do not seem to have defined col-SIZE-x elements to break at that width (https://getbootstrap.com/docs/4.0/layout/grid/#grid-options),
-		so I went with the the break that occurs at 575px/576px  (col-x is for width < 576, col-sm-x is for width >= 576px)
-	*/
-
-
-	nav {
-		position: static!important;
-	}
-
-	.container.wrapper {
-		padding-top: 0;
-	}
-
-	.container.wrapper, footer .container {
-		/*min-width: 560px;*/
-		width: 500px;
-
-	}
-
 }
