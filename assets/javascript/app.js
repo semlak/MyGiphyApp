@@ -159,9 +159,12 @@ let GiphyApp = class {
 			$(".images-container .row").empty();
 
 			data.forEach(item => {
-				let newCard = $("<div>").addClass('card gif-card');
+				// let newCard = $("<div>").addClass('card gif-card');
+				let newCard = $("<figure>").addClass(' gif-card');
 				// newCard.append($("<div>").addClass('card-header').text("Rating: " + item.rating ))
-				let image = $("<img>").addClass("card-image-bottom img-fluid gif").
+				// let image = $("<img>").addClass("card-image-bottom  gif").
+				let image = $("<img>").addClass("figure-img img-fluid rounded gif").
+				// let image = $("<img>").addClass("img-fluid gif").
 						// attr("data-still", data["data-still"]).
 						attr("src", item.images.fixed_width_still.url).
 						attr("data-still", item.images.fixed_width_still.url).
@@ -171,18 +174,19 @@ let GiphyApp = class {
 						attr("data-content","Click on the image to toggle the GIF animation.")
 						// popover({delay: { "show": 500, "hide": 100 }})
 						// attr("delay", { "show": 500, "hide": 100 })
-				newCard.append($("<div>").addClass("card-body").
-					append($("<div>").addClass("card-text").text("Rating: " + item.rating.toUpperCase() )).
-					append(image)
-
-			// topicButton.attr("data-toggle", "popover").attr("data-content", "Load images relating to " + topic).attr("data-placement", "bottom")
-			// topicButton.attr("data-toggle", "popover").attr("data-content", "Load images relating to " + topic).attr("data-placement", "bottom")
-
-						)
+				// newCard.append($("<div>").addClass("card-body").
+				// 	append($("<div>").addClass("card-text").text("Rating: " + item.rating.toUpperCase() )).
+				// 	append(image)
+				// )
+				// newCard.append($("<figcaption>").addClass("figure-caption").text("Rating: " + item.rating.toUpperCase()))
+				newCard.append(image);
+				newCard.append($("<figcaption>").addClass("figure-caption overlay").text("Rating: " + item.rating.toUpperCase()))
+				// newCard.append($("<div>").addClass("overlay").text("Rating: " + item.rating.toUpperCase()));
 						  // <img src="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
 						  // data-still="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
 						  // data-animate="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200.gif" data-state="still" class="gif">
-				$(".images-container .row").append($("<div>").addClass("col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12").append(newCard));
+				// $(".images-container .row").append($("<div>").addClass("col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12").append(newCard));
+				$(".images-container").append(newCard);
 			})
 		})
 

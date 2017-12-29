@@ -58,6 +58,7 @@ body {
 	margin-top: 15px;
 	margin-left: 15px;
 	margin-right: 15px;
+	/*background: #000;*/
 }
 
 .images-container .card {
@@ -66,7 +67,7 @@ body {
 
 .images-container img {
 	width: 100%;
-	margin: 0;
+	/*margin: 0;*/
 }
 
 .images-container .card-body {
@@ -77,6 +78,28 @@ body {
 	padding: .5em;
 }
 
+
+.images-container {
+	 flex-direction: column;
+	 column-count: 3
+
+}
+
+.images-container figure {
+	position: relative;
+}
+.images-container figure .overlay {
+	position: absolute;
+	bottom: 0px;
+	opacity: 0;
+	width: 100%;
+	background-color: #000 ;
+	color: #fff;
+}
+
+.images-container figure .overlay.hovered {
+	opacity: .5;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
