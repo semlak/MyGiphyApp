@@ -19,7 +19,7 @@ let GiphyApp = class {
 
 		this.initialTopics = ["Kitten", "Puppy"];
 		this.topics = this.initialTopics.slice(0);
-		this.theme = theme;
+		// this.theme = theme;
 		this.setupAppDivs();
 
 		// setTimeout(function() {
@@ -33,7 +33,7 @@ let GiphyApp = class {
 		app.topics = [];
 		// app.topics = app.initialTopics.slice(0);
 		app.renderTopicButtons();
-		$(".images-container .row").empty().append($("<div>").addClass("col").text("Click one of the topics to load gifs!"))
+		$(".images-container").empty().append($("<div>").addClass("col").text("Click one of the topics to load gifs!"))
 ;
 
 
@@ -109,14 +109,13 @@ let GiphyApp = class {
 
 	addSearchPanel() {
 		let searchPanel = ($("<div>").addClass("card"))
-		searchPanel.append($("<div>").addClass("card-header").text("Add " + this.theme));
+		searchPanel.append($("<div>").addClass("card-header").text("Add topic:"));
 		// $("#searchPanel"));
 		let cardBody = $("<div>").addClass("card-body");
-		cardBody.append($("<form>").
-			append($("<input>").attr("type", "text").attr("id", "new-topic").attr("placeholder", "Search for a new " + this.theme)).
-			append("<br>").
-			append($("<button>").addClass("btn btn-success btn-square topic-search-button").text("Add " + this.theme).
-				attr("autofocus", true)));
+		cardBody.append($("<form>").addClass("form-group").
+			append($("<input>").addClass("form-control ").attr("type", "text").attr("id", "new-topic").attr("placeholder", "Topic to add")).
+			append($("<button>").addClass("btn btn-success btn-square topic-search-button").text("Add topic").
+				attr("autofocus", true).attr("type", "submit")));
 		searchPanel.append(cardBody);
 		$(".search-container").append(searchPanel);
 		// <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
@@ -146,48 +145,74 @@ let GiphyApp = class {
 
 	}
 
+	appendGifs(data) {
+		var previousColor = null;
+		let colors = ["rgb(0, 255, 153)", "rgb(153, 51, 255)", "rgb(255,102,102)", "rgb(0, 204, 255)", "rgb(255, 243, 92)"];
+		var randomColor = function() {
+			let filteredColors = colors.filter(color => color !== previousColor);
+			previousColor = filteredColors[Math.floor(Math.random()*filteredColors.length)]
+			return previousColor;
+		};
+
+		$(".images-container").empty();
+		data.forEach(item => {
+			let newCard = $("<div>").addClass('card gif-card');
+			// let newCard = $("<figure>").addClass(' gif-card');
+			// newCard.append($("<div>").addClass('card-header').text("Rating: " + item.rating ))
+			let image = $("<img>").addClass("card-image-bottom  gif img-fluid").
+			// let image = $("<img>").addClass("figure-img img-fluid rounded gif").
+			// let image = $("<img>").addClass("img-fluid gif").
+					attr("data-still", data["data-still"]).
+					attr("src", item.images.fixed_width_still.url).
+					attr("data-still", item.images.fixed_width_still.url).
+					attr("data-animate", item.images.fixed_width.url).
+					attr("data-state", "still").
+					attr("data-toggle","popover").attr("data-placement","bottom").
+					attr("data-content","Click on the image to toggle the GIF animation.")
+
+
+					// popover({delay: { "show": 500, "hide": 100 }})
+					// attr("delay", { "show": 500, "hide": 100 })
+			newCard.append($("<div>").addClass("card-body").
+				css("background-color", randomColor()).
+				append($("<div>").addClass("gif-rating").text("Rating: " + item.rating.toUpperCase() )).
+				append(image));
+			// )
+			// newCard.append($("<figcaption>").addClass("figure-caption").text("Rating: " + item.rating.toUpperCase()))
+			// newCard.append(image);
+			// newCard.append($("<figcaption>").addClass("figure-caption overlay").text("Rating: " + item.rating.toUpperCase()))
+			// newCard.append($("<div>").addClass("overlay").text("Rating: " + item.rating.toUpperCase()));
+					  // <img src="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
+					  // data-still="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
+					  // data-animate="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200.gif" data-state="still" class="gif">
+			// $(".images-container .row").append($("<div>").addClass("col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12").append(newCard));
+			$(".images-container").append(newCard);
+			let cardWidth = newCard.outerWidth();
+			let imageHeightToSet = cardWidth * item.images.fixed_width_still.height / item.images.fixed_width_still.width;
+			image.height(imageHeightToSet);
+		})
+
+	}
+
 	loadGifs(topic) {
 		// let url = "https://media1.giphy.com/";
 		let url = "https://api.giphy.com/v1/gifs/search?api_key=c5CF9X0IcrkjEmQ6MkiQE6V7D7oo2QAN&q=" + topic + "&limit=25&offset=0&lang=en"
-		$(".images-container .row .col").empty().text("Loading images...");
+		$(".images-container").empty().text("Loading images...");
 
 		$.ajax({
 			url: url,
 			method: "GET"
 		}).done(function(response) {
 			let data = response.data;
-			$(".images-container .row").empty();
+			// $(".images-container").empty();
+			if (data.length>0) {
+				app.appendGifs(data);
+			}
+			else {
+				// no images were received with response
+				$(".images-container").empty().text("No images found related to \"" + topic + "\"");
 
-			data.forEach(item => {
-				// let newCard = $("<div>").addClass('card gif-card');
-				let newCard = $("<figure>").addClass(' gif-card');
-				// newCard.append($("<div>").addClass('card-header').text("Rating: " + item.rating ))
-				// let image = $("<img>").addClass("card-image-bottom  gif").
-				let image = $("<img>").addClass("figure-img img-fluid rounded gif").
-				// let image = $("<img>").addClass("img-fluid gif").
-						// attr("data-still", data["data-still"]).
-						attr("src", item.images.fixed_width_still.url).
-						attr("data-still", item.images.fixed_width_still.url).
-						attr("data-animate", item.images.fixed_width.url).
-						attr("data-state", "still").
-						attr("data-toggle","popover").attr("data-placement","bottom").
-						attr("data-content","Click on the image to toggle the GIF animation.")
-						// popover({delay: { "show": 500, "hide": 100 }})
-						// attr("delay", { "show": 500, "hide": 100 })
-				// newCard.append($("<div>").addClass("card-body").
-				// 	append($("<div>").addClass("card-text").text("Rating: " + item.rating.toUpperCase() )).
-				// 	append(image)
-				// )
-				// newCard.append($("<figcaption>").addClass("figure-caption").text("Rating: " + item.rating.toUpperCase()))
-				newCard.append(image);
-				newCard.append($("<figcaption>").addClass("figure-caption overlay").text("Rating: " + item.rating.toUpperCase()))
-				// newCard.append($("<div>").addClass("overlay").text("Rating: " + item.rating.toUpperCase()));
-						  // <img src="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
-						  // data-still="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
-						  // data-animate="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200.gif" data-state="still" class="gif">
-				// $(".images-container .row").append($("<div>").addClass("col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12").append(newCard));
-				$(".images-container").append(newCard);
-			})
+			}
 		})
 
 	}

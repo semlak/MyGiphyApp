@@ -62,7 +62,14 @@ body {
 }
 
 .images-container .card {
-	margin-top: 10px;
+	/*margin-top: 20px;*/
+	margin-bottom: 20px;
+	border: none;
+	/*flex-shrink: 0;*/
+	/*flex: 0 0 auto;*/
+	page-break-inside: avoid;
+	break-inside: avoid;
+
 }
 
 .images-container img {
@@ -70,8 +77,15 @@ body {
 	/*margin: 0;*/
 }
 
+
+.gif-rating {
+	background-color: #000 ;
+	color: #fff;
+}
+
 .images-container .card-body {
 	padding:0;
+	margin-bottom: 0;
 }
 
 .images-container .card-text {
@@ -81,11 +95,31 @@ body {
 
 .images-container {
 	 flex-direction: column;
-	 column-count: 3
+	 column-count: 3;
 
 }
 
-.images-container figure {
+.images-container .gif {
+	/*position: relative;*/
+}
+
+
+.images-container .gif-card .overlay {
+	/*position: absolute;*/
+	bottom: 0px;
+	/*opacity: 0;*/
+	/*width: 100%;*/
+	background-color: #000 ;
+	color: #fff;
+}
+
+/*.images-container .gif .overlay.hovered {
+	opacity: .5;
+}
+*/
+
+
+/*.images-container figure {
 	position: relative;
 }
 .images-container figure .overlay {
@@ -100,7 +134,7 @@ body {
 .images-container figure .overlay.hovered {
 	opacity: .5;
 }
-
+*/
 /* Sticky footer styles
 -------------------------------------------------- */
 /*from http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/*/
