@@ -10,7 +10,10 @@ let GiphyApp = class {
 		$(document).on("click", ".btn-load-images", me.loadTopicImages);
 		$(document).on("click", ".topic-search-button", me.addTopic);
 		$(document).on("click", ".gif", me.gifClick);
-		$(document).on("click", "#reset-button", me.reset)
+		$(document).on("click", "#reset-button", me.reset);
+		$(document).on("click", "#search-box-x", me.clearTopicSearch);
+		$(document).on("keydown", "#new-topic", me.enableClearSearchButton);
+		$(document).on("click", "#images-tab-bar .close", me.closeTab);
 		// $(document).on('popover', '[data-toggle="popover"]',{trigger: 'hover'})
 			// $('[data-toggle="popover"]').popover({trigger: 'hover'});
 		// $(document).on('popover', '[data-toggle="popover"]',{trigger: 'hover'})
@@ -33,11 +36,32 @@ let GiphyApp = class {
 		app.topics = [];
 		// app.topics = app.initialTopics.slice(0);
 		app.renderTopicButtons();
-		$(".images-container").empty().append($("<div>").addClass("col").text("Click one of the topics to load gifs!"))
-;
+		$(".images-container")
+			.empty()
+			.append($("<div>").addClass("col").text("Click one of the topics to load gifs!"));
 
 
 
+	}
+
+	closeTab() {
+		var tabContentId = $(this).parent().attr("href");
+		$(this).parent().parent().remove(); //remove li of tab
+		$('#images-tab-bar a:last').tab('show'); // Select first tab
+		$(tabContentId).remove(); //remove respective tab content
+
+	}
+
+	clearTopicSearch() {
+		if (!($(this).hasClass('disabled'))) {
+			$("#new-topic").val("");
+			$("#search-box-x").addClass("disabled")
+		}
+
+	}
+
+	enableClearSearchButton() {
+		$("#search-box-x").removeClass("disabled")
 	}
 
 	gifClick() {
@@ -88,7 +112,75 @@ let GiphyApp = class {
 
 	}
 
+	appendEmptyTabToImageTabBarAndPane(tabTitle, initialText) {
+
+		let currentTabBarLength = $("#images-tab-bar").children().length;
+		let newPaneID = "tab-pane-" + currentTabBarLength;
+		$(".tab-pane").removeClass("active");
+		$("#images-tab-bar li a").removeClass("active");
+		$("#images-tab-bar")
+			.append($("<li>").addClass("nav-item")
+				.append($("<a>").addClass("nav-link active")
+					.attr("id", "images-tab-" + currentTabBarLength)
+					.attr("data-toggle", "tab")
+					.attr("href", "#tab-pane-" + currentTabBarLength)
+					.attr("role", "tab")
+					.attr("aria-controls", "images-tab-" + currentTabBarLength)
+					.attr("aria-selected", true)
+					.html((tabTitle || "Images " + currentTabBarLength)+ " <span class=\"close\">×</span>")
+				)
+			)
+		$(".tab-content")
+				.append($("<div>").addClass("tab-pane active")
+					.attr("id", newPaneID)
+					// .attr("href", "#")
+					.attr("role", "tabpanel")
+					.attr("aria-labeledby", "images-tab-" + currentTabBarLength)
+					.append($("<div>").addClass("images-container")
+						.text(newPaneID + ": " + (initialText || "Loading..."))
+					)
+				)
+		return newPaneID;
+	}
+
+	createInitialImageTabBarAndPane() {
+		let tabDivs = $("<div>")
+		.append($("<div>").addClass("row")
+			.append($("<ul>").addClass("nav nav-tabs").attr("id", "images-tab-bar").attr("role", "tablist")
+				.append($("<li>").addClass("nav-item")
+					.append($("<a>").addClass("nav-link active")
+						.attr("id", "images-tab-0")
+						.attr("data-toggle", "tab")
+						.attr("href", "#tab-pane-0")
+						.attr("role", "tab")
+						.attr("aria-controls", "images-tab-0")
+						.attr("aria-selected", true)
+						.text("Images 0")
+
+					)
+				)
+			)
+		)
+		.append($("<div>").addClass("row")
+			.append($("<div>").addClass("tab-content")
+				.append($("<div>").addClass("tab-pane active")
+					.attr("id", "tab-pane-0")
+					// .attr("href", "#")
+					.attr("role", "tabpanel")
+					.attr("aria-labeledby", "images-tab-0")
+					.append($("<div>").addClass("images-container")
+						.text("Click one of the topics to load gifs!")
+					)
+
+				)
+			)
+		)
+
+		return tabDivs;
+	}
+
 	setupAppDivs() {
+		let tabbedDivs = this.createInitialImageTabBarAndPane();
 		$("#app-container").
 			append($("<div>").addClass("row flex-column-reverse flex-md-row").
 				append($("<div>").addClass("col-xl-8 col-lg-8 col-md-7 col-sm-push-5" ).
@@ -96,27 +188,43 @@ let GiphyApp = class {
 				)
 			).
 			append($("<div>").addClass("col-xl-4 col-lg-4 col-md-5 col-sm-pull-7").
-				append($("<div>").addClass("search-container")
+				append($("<div>").addClass("search-container"))
 			)
-		)
-			).append($("<div>").addClass("row").
-				append($("<div>").addClass("images-container")
-					.append($("<div>").addClass("row").append($("<div>").addClass("col").text("Click one of the topics to load gifs!"))
-				)
-			)
-		)
+		).append(tabbedDivs)
+
+
 	}
 
 	addSearchPanel() {
-		let searchPanel = ($("<div>").addClass("card"))
-		searchPanel.append($("<div>").addClass("card-header").text("Add topic:"));
+		let searchPanel = ($("<div>").addClass("card border-info"))
+		searchPanel.append($("<div>").addClass("card-header").text("Add topic"));
 		// $("#searchPanel"));
 		let cardBody = $("<div>").addClass("card-body");
+		// cardBody.append($("<i>").addClass("fa fa-close").attr( "aria-hidden", true).attr("id", "search-box-x"));
+
 		cardBody.append($("<form>").addClass("form-group").
-			append($("<input>").addClass("form-control ").attr("type", "text").attr("id", "new-topic").attr("placeholder", "Topic to add")).
-			append($("<button>").addClass("btn btn-success btn-square topic-search-button").text("Add topic").
-				attr("autofocus", true).attr("type", "submit")));
+			append($("<div>").addClass("form-group")
+				.append($("<input>").addClass("form-control form-control-lg ")
+					.attr("type", "text").attr("id", "new-topic").attr("placeholder", "Topic to add")
+					// .css({"position": "relative"})
+
+					)
+				.append($("<span>").addClass("clear-search fa fa-close disabled").attr("id", "search-box-x")
+					// .html("<i class=\"fa fa-close\" aria-hidden=\"true\"></i>")
+					)
+
+				)
+			.append($("<button>").addClass("btn btn-info btn-square topic-search-button").
+				html("<i class=\"fa fa-search\" aria-hidden=\"true\"></i>&nbsp;&nbsp; Add topic")
+				// text("Add topic").
+				.attr("autofocus", true).attr("type", "submit")));
+
 		searchPanel.append(cardBody);
+
+		// searchPanel
+		// .append($("<span>").addClass("clear-search").attr("id", "search-box-x")
+		// .html("<i class=\"fa fa-close\" aria-hidden=\"true\"></i>"))
+
 		$(".search-container").append(searchPanel);
 		// <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
 	}
@@ -145,23 +253,22 @@ let GiphyApp = class {
 
 	}
 
-	appendGifs(data) {
+	appendGifs(data, newPaneID) {
+
 		var previousColor = null;
-		let colors = ["rgb(0, 255, 153)", "rgb(153, 51, 255)", "rgb(255,102,102)", "rgb(0, 204, 255)", "rgb(255, 243, 92)"];
+		// let colors = ["rgb(0, 255, 153)", "rgb(153, 51, 255)", "rgb(255,102,102)", "rgb(0, 204, 255)", "rgb(255, 243, 92)"];
+		let colors = ["#77B300", "#9933CC" , "#CC0000", "#3366cc", "#F5E625", "#FF8C00", "#00FFFF", "#FF1493"];
+
 		var randomColor = function() {
 			let filteredColors = colors.filter(color => color !== previousColor);
 			previousColor = filteredColors[Math.floor(Math.random()*filteredColors.length)]
 			return previousColor;
 		};
 
-		$(".images-container").empty();
+		$("#" + newPaneID + " .images-container").empty();
 		data.forEach(item => {
 			let newCard = $("<div>").addClass('card gif-card');
-			// let newCard = $("<figure>").addClass(' gif-card');
-			// newCard.append($("<div>").addClass('card-header').text("Rating: " + item.rating ))
 			let image = $("<img>").addClass("card-image-bottom  gif img-fluid").
-			// let image = $("<img>").addClass("figure-img img-fluid rounded gif").
-			// let image = $("<img>").addClass("img-fluid gif").
 					attr("data-still", data["data-still"]).
 					attr("src", item.images.fixed_width_still.url).
 					attr("data-still", item.images.fixed_width_still.url).
@@ -169,24 +276,11 @@ let GiphyApp = class {
 					attr("data-state", "still").
 					attr("data-toggle","popover").attr("data-placement","bottom").
 					attr("data-content","Click on the image to toggle the GIF animation.")
-
-
-					// popover({delay: { "show": 500, "hide": 100 }})
-					// attr("delay", { "show": 500, "hide": 100 })
 			newCard.append($("<div>").addClass("card-body").
 				css("background-color", randomColor()).
 				append($("<div>").addClass("gif-rating").text("Rating: " + item.rating.toUpperCase() )).
 				append(image));
-			// )
-			// newCard.append($("<figcaption>").addClass("figure-caption").text("Rating: " + item.rating.toUpperCase()))
-			// newCard.append(image);
-			// newCard.append($("<figcaption>").addClass("figure-caption overlay").text("Rating: " + item.rating.toUpperCase()))
-			// newCard.append($("<div>").addClass("overlay").text("Rating: " + item.rating.toUpperCase()));
-					  // <img src="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
-					  // data-still="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
-					  // data-animate="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200.gif" data-state="still" class="gif">
-			// $(".images-container .row").append($("<div>").addClass("col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12").append(newCard));
-			$(".images-container").append(newCard);
+			$("#" + newPaneID + " .images-container").append(newCard);
 			let cardWidth = newCard.outerWidth();
 			let imageHeightToSet = cardWidth * item.images.fixed_width_still.height / item.images.fixed_width_still.width;
 			image.height(imageHeightToSet);
@@ -197,7 +291,9 @@ let GiphyApp = class {
 	loadGifs(topic) {
 		// let url = "https://media1.giphy.com/";
 		let url = "https://api.giphy.com/v1/gifs/search?api_key=c5CF9X0IcrkjEmQ6MkiQE6V7D7oo2QAN&q=" + topic + "&limit=25&offset=0&lang=en"
-		$(".images-container").empty().text("Loading images...");
+		// $(".images-container").empty().text("Loading images...");
+		let newPaneID = this.appendEmptyTabToImageTabBarAndPane(topic, "Loading images...")
+		console.log("newPaneID: ", newPaneID);
 
 		$.ajax({
 			url: url,
@@ -206,11 +302,11 @@ let GiphyApp = class {
 			let data = response.data;
 			// $(".images-container").empty();
 			if (data.length>0) {
-				app.appendGifs(data);
+				app.appendGifs(data, newPaneID);
 			}
 			else {
 				// no images were received with response
-				$(".images-container").empty().text("No images found related to \"" + topic + "\"");
+				$("#" + newPaneID + " .images-container").empty().text("No images found related to \"" + topic + "\"");
 
 			}
 		})

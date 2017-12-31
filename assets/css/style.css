@@ -51,6 +51,43 @@ body {
 	margin-top: 1em;
 }
 
+#search-box-x.disabled {
+	color: #ccc
+}
+
+
+
+#new-topic {
+	/*display: inline-block;*/
+}
+
+#search-box-x {
+	position: absolute;
+	right: 30px;
+	top: 95px;
+	/*display: inline-block;*/
+	/*height: 0px;*/
+}
+
+#new-topic::placeholder, #new-topic::placeholder,
+#new-topic::-webkit-input-placeholder
+{
+	color: #aaa;
+}
+
+
+#new-topic::-moz-placeholder { /* Firefox 19+ */
+  color: #aaa;
+}
+
+#new-topic:-ms-input-placeholder { /* IE 10+ */
+  color: #aaa;
+}
+
+#new-topic:-moz-placeholder { /* Firefox 18- */
+  color: #aaa;
+}
+
 
 .images-container {
 	width: 100%;
@@ -90,6 +127,18 @@ body {
 
 .images-container .card-text {
 	padding: .5em;
+}
+
+
+
+#images-tab-bar .close {
+	position: relative;
+	right: -10px;
+	top: 8px;
+}
+
+.tab-content {
+	width: 100%;
 }
 
 
