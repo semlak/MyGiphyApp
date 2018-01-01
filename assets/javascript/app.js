@@ -20,7 +20,7 @@ let GiphyApp = class {
 
 			// $('[data-toggle="popover"]').popover({trigger: 'hover'});
 
-		this.initialTopics = ["Kitten", "Puppy"];
+		this.initialTopics = ["Kitten", "Puppy", "Star Trek", "Xena", "JavaScript"];
 		this.topics = this.initialTopics.slice(0);
 		// this.theme = theme;
 		this.setupAppDivs();
@@ -28,6 +28,7 @@ let GiphyApp = class {
 		// setTimeout(function() {
 		me.addSearchPanel();
 		me.renderTopicButtons();
+		this.paneIDs = [];
 
 		// }, 0);
 	}
@@ -45,11 +46,21 @@ let GiphyApp = class {
 	}
 
 	closeTab() {
-		var tabContentId = $(this).parent().attr("href");
+		let currentTabBarLength = $("#images-tab-bar").children().length;
+		if (currentTabBarLength < 2) {
+			$("#images-tab-bar").addClass("hidden");
+		}
+		let paneID = $(this).parent().attr("href");
+		console.log($(this));
+		console.log($(this).parent());
+		console.log($(this).parent().parent());
+		console.log("removing paneID", paneID);
 		$(this).parent().parent().remove(); //remove li of tab
 		$('#images-tab-bar a:last').tab('show'); // Select first tab
-		$(tabContentId).remove(); //remove respective tab content
-
+		$(paneID).remove(); //remove respective tab content
+		// $(paneID).hide(); //hide respective tab content
+		paneID = paneID.replace(/#/, "");
+		app.paneIDs = app.paneIDs.filter(id => id !== paneID);
 	}
 
 	clearTopicSearch() {
@@ -99,6 +110,7 @@ let GiphyApp = class {
 		// console.log($(this));
 		event.preventDefault();
 		let newTopic = $("#new-topic").val();
+		$("#search-box-x").addClass("disabled")
 		console.log(newTopic);
 		if (newTopic.trim().length > 0) {
 			if (app.topics.filter(topic => topic.toLowerCase().replace(/ /, "") === newTopic.toLowerCase().replace(/ /, "")).length < 1) {
@@ -112,22 +124,35 @@ let GiphyApp = class {
 
 	}
 
-	appendEmptyTabToImageTabBarAndPane(tabTitle, initialText) {
+	appendNewTabToImageTabBarAndPane(tabTitle, initialText) {
 
 		let currentTabBarLength = $("#images-tab-bar").children().length;
-		let newPaneID = "tab-pane-" + currentTabBarLength;
+		if (currentTabBarLength > 0) {
+			$("#images-tab-bar").removeClass("hidden");
+		}
+
+		let key = tabTitle.toLowerCase().replace(/ /g, "");
+		let newPaneID = "tab-pane-" + key;
+
+		if (this.paneIDs.indexOf(newPaneID)> -1) {
+			console.log("a pane with id " + newPaneID + " already exists");
+			return newPaneID;
+		}
+		else {
+			this.paneIDs.push(newPaneID);
+		}
 		$(".tab-pane").removeClass("active");
 		$("#images-tab-bar li a").removeClass("active");
 		$("#images-tab-bar")
 			.append($("<li>").addClass("nav-item")
-				.append($("<a>").addClass("nav-link active")
-					.attr("id", "images-tab-" + currentTabBarLength)
+				.append($("<a>").addClass("nav-link active square")
+					.attr("id", "images-tab-" + key)
 					.attr("data-toggle", "tab")
-					.attr("href", "#tab-pane-" + currentTabBarLength)
+					.attr("href", "#tab-pane-" + key)
 					.attr("role", "tab")
-					.attr("aria-controls", "images-tab-" + currentTabBarLength)
+					.attr("aria-controls", "images-tab-" + key)
 					.attr("aria-selected", true)
-					.html((tabTitle || "Images " + currentTabBarLength)+ " <span class=\"close\">×</span>")
+					.html((tabTitle || "Images " + $("#images-tab-bar").children().length)+ " <span class=\"close\">×</span>")
 				)
 			)
 		$(".tab-content")
@@ -135,9 +160,9 @@ let GiphyApp = class {
 					.attr("id", newPaneID)
 					// .attr("href", "#")
 					.attr("role", "tabpanel")
-					.attr("aria-labeledby", "images-tab-" + currentTabBarLength)
+					.attr("aria-labeledby", "images-tab-" + tabTitle.toLowerCase())
 					.append($("<div>").addClass("images-container")
-						.text(newPaneID + ": " + (initialText || "Loading..."))
+						.text((initialText || "Loading..."))
 					)
 				)
 		return newPaneID;
@@ -146,34 +171,10 @@ let GiphyApp = class {
 	createInitialImageTabBarAndPane() {
 		let tabDivs = $("<div>")
 		.append($("<div>").addClass("row")
-			.append($("<ul>").addClass("nav nav-tabs").attr("id", "images-tab-bar").attr("role", "tablist")
-				.append($("<li>").addClass("nav-item")
-					.append($("<a>").addClass("nav-link active")
-						.attr("id", "images-tab-0")
-						.attr("data-toggle", "tab")
-						.attr("href", "#tab-pane-0")
-						.attr("role", "tab")
-						.attr("aria-controls", "images-tab-0")
-						.attr("aria-selected", true)
-						.text("Images 0")
-
-					)
-				)
-			)
+			.append($("<ul>").addClass("nav nav-tabs hidden").attr("id", "images-tab-bar").attr("role", "tablist"))
 		)
 		.append($("<div>").addClass("row")
-			.append($("<div>").addClass("tab-content")
-				.append($("<div>").addClass("tab-pane active")
-					.attr("id", "tab-pane-0")
-					// .attr("href", "#")
-					.attr("role", "tabpanel")
-					.attr("aria-labeledby", "images-tab-0")
-					.append($("<div>").addClass("images-container")
-						.text("Click one of the topics to load gifs!")
-					)
-
-				)
-			)
+			.append($("<div>").addClass("tab-content"))
 		)
 
 		return tabDivs;
@@ -214,7 +215,7 @@ let GiphyApp = class {
 					)
 
 				)
-			.append($("<button>").addClass("btn btn-info btn-square topic-search-button").
+			.append($("<button>").addClass("btn btn-info square topic-search-button").
 				html("<i class=\"fa fa-search\" aria-hidden=\"true\"></i>&nbsp;&nbsp; Add topic")
 				// text("Add topic").
 				.attr("autofocus", true).attr("type", "submit")));
@@ -239,7 +240,7 @@ let GiphyApp = class {
 		}
 		me.topics.forEach(function(topic, i) {
 			console.log(topic);
-			let topicButton = $("<div>").addClass("btn btn-square btn-primary btn-load-images").text(topic).attr("value", topic);
+			let topicButton = $("<div>").addClass("btn square btn-primary btn-load-images").text(topic).attr("value", topic);
 			topicButton.attr("data-toggle", "popover").attr("data-content", "Load images relating to " + topic).attr("data-placement", "bottom").
 			attr("delay", 500)
 // <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>
@@ -292,7 +293,22 @@ let GiphyApp = class {
 		// let url = "https://media1.giphy.com/";
 		let url = "https://api.giphy.com/v1/gifs/search?api_key=c5CF9X0IcrkjEmQ6MkiQE6V7D7oo2QAN&q=" + topic + "&limit=25&offset=0&lang=en"
 		// $(".images-container").empty().text("Loading images...");
-		let newPaneID = this.appendEmptyTabToImageTabBarAndPane(topic, "Loading images...")
+		let key = topic.toLowerCase().replace(/ /g, "");
+		let paneID = "tab-pane-" + key;
+		if (this.paneIDs.indexOf(paneID)> -1) {
+			console.log("a pane with id " + paneID + " already exists. Just switching to it");
+			$(".tab-pane").removeClass("active");
+			$("#images-tab-bar li a").removeClass("active");
+
+			$("#images-tab-" + key).addClass("active");
+			$("#" + paneID).addClass("active");
+			return;
+		}
+
+
+
+
+		let newPaneID = this.appendNewTabToImageTabBarAndPane(topic, "Loading images...")
 		console.log("newPaneID: ", newPaneID);
 
 		$.ajax({
