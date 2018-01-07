@@ -1,6 +1,37 @@
 const theme = "animal"
 
+function shuffleArray(arr) {
+	// returns a shuffled version of the array. Does not alter the input array
+	// Tries to implement the Knuth Shuffle.
+	function randomUpToN(n) {
+		// does not return n, but numbers between 0 and n-1
+		return (Math.floor(Math.random() * n));
+	}
+
+	function swapArrayElements(arr, i, j) {
+		// swaps  the elements i and j or arr. Does  not return anything. It alters input array.
+		if (i !== j) {
+			let t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+
+	// clone the array
+	var outputArr = arr.slice(0);
+	let n = arr.length;
+	for (let i = 0; i < n - 1; i++) {
+		let j = randomUpToN(n - i);
+		// swap element i with the element at (i+j). max i+j value is i + (n-i) - 1 = n - 1
+
+		swapArrayElements(outputArr, i, i + j)
+		// console.log(outputArr)
+	}
+	return outputArr;
+}
+
 var app = null;
+
 
 
 let GiphyApp = class {
@@ -20,15 +51,14 @@ let GiphyApp = class {
 
 			// $('[data-toggle="popover"]').popover({trigger: 'hover'});
 
-		this.initialTopics = ["Kitten", "Puppy", "Star Trek", "Xena", "JavaScript"];
-		this.topics = this.initialTopics.slice(0);
+		me.initialTopics = ["Kitten", "Puppy", "Star Trek", "Xena", "JavaScript"];
+		me.topics = me.initialTopics.slice(0);
 		// this.theme = theme;
-		this.setupAppDivs();
+		me.setupAppDivs();
 
-		// setTimeout(function() {
 		me.addSearchPanel();
 		me.renderTopicButtons();
-		this.paneIDs = [];
+		me.paneIDs = [];
 
 		// }, 0);
 	}
@@ -40,9 +70,6 @@ let GiphyApp = class {
 		$(".images-container")
 			.empty()
 			.append($("<div>").addClass("col").text("Click one of the topics to load gifs!"));
-
-
-
 	}
 
 	closeTab() {
@@ -51,16 +78,18 @@ let GiphyApp = class {
 			$("#images-tab-bar").addClass("hidden");
 		}
 		let paneID = $(this).parent().attr("href");
-		console.log($(this));
-		console.log($(this).parent());
-		console.log($(this).parent().parent());
-		console.log("removing paneID", paneID);
-		$(this).parent().parent().remove(); //remove li of tab
-		$('#images-tab-bar a:last').tab('show'); // Select first tab
-		$(paneID).remove(); //remove respective tab content
-		// $(paneID).hide(); //hide respective tab content
-		paneID = paneID.replace(/#/, "");
-		app.paneIDs = app.paneIDs.filter(id => id !== paneID);
+
+		let tabToRemove = $(this).parent().parent();
+		$("#images-tab-bar").removeClass("active");
+		setTimeout(function() {
+			tabToRemove.remove();
+			$('#images-tab-bar a:last').tab('show'); // Select first tab
+			$(paneID).remove(); //remove respective tab content
+			paneID = paneID.replace(/#/, "");
+			app.paneIDs = app.paneIDs.filter(id => id !== paneID);
+
+		}, 0);
+
 	}
 
 	clearTopicSearch() {
@@ -109,7 +138,7 @@ let GiphyApp = class {
 	addTopic(event) {
 		// console.log($(this));
 		event.preventDefault();
-		let newTopic = $("#new-topic").val();
+		let newTopic = $("#new-topic").val().trim();
 		$("#search-box-x").addClass("disabled")
 		console.log(newTopic);
 		if (newTopic.trim().length > 0) {
@@ -125,7 +154,7 @@ let GiphyApp = class {
 	}
 
 	appendNewTabToImageTabBarAndPane(tabTitle, initialText) {
-
+		// the tab bar is hidden if 0 or 1 elements are in tab bar.
 		let currentTabBarLength = $("#images-tab-bar").children().length;
 		if (currentTabBarLength > 0) {
 			$("#images-tab-bar").removeClass("hidden");
@@ -145,7 +174,7 @@ let GiphyApp = class {
 		$("#images-tab-bar li a").removeClass("active");
 		$("#images-tab-bar")
 			.append($("<li>").addClass("nav-item")
-				.append($("<a>").addClass("nav-link active square")
+				.append($("<a>").addClass("nav-link active")
 					.attr("id", "images-tab-" + key)
 					.attr("data-toggle", "tab")
 					.attr("href", "#tab-pane-" + key)
@@ -267,24 +296,43 @@ let GiphyApp = class {
 		};
 
 		$("#" + newPaneID + " .images-container").empty();
-		data.forEach(item => {
-			let newCard = $("<div>").addClass('card gif-card');
-			let image = $("<img>").addClass("card-image-bottom  gif img-fluid").
-					attr("data-still", data["data-still"]).
-					attr("src", item.images.fixed_width_still.url).
-					attr("data-still", item.images.fixed_width_still.url).
-					attr("data-animate", item.images.fixed_width.url).
-					attr("data-state", "still").
-					attr("data-toggle","popover").attr("data-placement","bottom").
-					attr("data-content","Click on the image to toggle the GIF animation.")
-			newCard.append($("<div>").addClass("card-body").
+		// shuffle order of images to make it seem like images being loaded are not the same every time
+		let shuffledItems = shuffleArray(data);
+
+		shuffledItems.forEach(item => {
+			let heightToWidthRatio = 100*item.images.fixed_width_still.height / item.images.fixed_width_still.width +0;
+			let cardID = "gif-card-" + item.id;
+			let newCard = $("<div>").addClass('card gif-card')
+						.attr("id", cardID);
+			let image = $("<img>").addClass("card-image-bottom  gif img-fluid")
+					.attr("data-still", data["data-still"])
+					.attr("src", item.images.fixed_width_still.url)
+					.attr("data-still", item.images.fixed_width_still.url)
+					.attr("data-animate", item.images.fixed_width.url)
+					.attr("data-state", "still")
+					.attr("data-toggle","popover").attr("data-placement","bottom")
+					.attr("data-content","Click on the image to toggle the GIF animation.")
+
+			let imageWrapper = $("<div>").addClass("image-wrapper");
+			imageWrapper.append(image);
+			let imageCardBody = ($("<div>").addClass("card-body").
 				css("background-color", randomColor()).
-				append($("<div>").addClass("gif-rating").text("Rating: " + item.rating.toUpperCase() )).
-				append(image));
+				append($("<div>").addClass("gif-rating").text("Rating: " + item.rating.toUpperCase() ))
+				// .append(image));
+				.append(imageWrapper));
+			console.log("using ratio" , heightToWidthRatio + "%");
+			// newCard
+
+			newCard.append(imageCardBody);
 			$("#" + newPaneID + " .images-container").append(newCard);
-			let cardWidth = newCard.outerWidth();
-			let imageHeightToSet = cardWidth * item.images.fixed_width_still.height / item.images.fixed_width_still.width;
-			image.height(imageHeightToSet);
+			// let cardWidth = newCard.outerWidth();
+			// let imageHeightToSet = cardWidth * item.images.fixed_width_still.height / item.images.fixed_width_still.width;
+			// newCard.css({"padding-bottom": heightToWidthRatio + "%"});
+			// image.height(imageHeightToSet);
+
+
+			newCard.append('<style>#' + cardID + ' .image-wrapper:before{content: ""; display: block; width: 100%; padding-top: ' + heightToWidthRatio + '%;}</style>');
+
 		})
 
 	}
@@ -295,6 +343,7 @@ let GiphyApp = class {
 		// $(".images-container").empty().text("Loading images...");
 		let key = topic.toLowerCase().replace(/ /g, "");
 		let paneID = "tab-pane-" + key;
+		let tabID = "images-tab-" + key;
 		if (this.paneIDs.indexOf(paneID)> -1) {
 			console.log("a pane with id " + paneID + " already exists. Just switching to it");
 			$(".tab-pane").removeClass("active");
@@ -323,8 +372,8 @@ let GiphyApp = class {
 			else {
 				// no images were received with response
 				$("#" + newPaneID + " .images-container").empty().text("No images found related to \"" + topic + "\"");
-
 			}
+
 		})
 
 	}

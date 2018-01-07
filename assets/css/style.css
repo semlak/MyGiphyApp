@@ -126,7 +126,7 @@ body {
 }
 
 .images-container .card-text {
-	padding: .5em;
+	/*padding: .5em;*/
 }
 
 #images-tab-bar.hidden {
@@ -167,6 +167,33 @@ body {
 	background-color: #000 ;
 	color: #fff;
 }
+
+.gif-card {
+	position: relative;
+	width: 100%;
+}
+/*
+.gif-card:before {
+	content: "";
+	display: block;
+	padding-top: 100%;
+
+}
+*/
+.gif-card .gif{
+	width: 100%;
+	position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+.image-wrapper {
+	position: relative;
+	/*width*/
+}
+
 
 /*.images-container .gif .overlay.hovered {
 	opacity: .5;
