@@ -1,4 +1,5 @@
 const theme = "animal"
+const initilGifLimit = 10;
 
 function shuffleArray(arr) {
 	// returns a shuffled version of the array. Does not alter the input array
@@ -55,7 +56,7 @@ let GiphyApp = class {
 		me.topics = me.initialTopics.slice(0);
 		// this.theme = theme;
 		me.setupAppDivs();
-
+		me.gifLimit = initilGifLimit;
 		me.addSearchPanel();
 		me.renderTopicButtons();
 		me.paneIDs = [];
@@ -334,7 +335,7 @@ let GiphyApp = class {
 				append($("<div>").addClass("gif-rating").text("Rating: " + item.rating.toUpperCase() ))
 				// .append(image));
 				.append(imageWrapper));
-			console.log("using ratio" , heightToWidthRatio + "%");
+			// console.log("using ratio" , heightToWidthRatio + "%");
 			// newCard
 
 			newCard.append(imageCardBody);
@@ -352,8 +353,10 @@ let GiphyApp = class {
 	}
 
 	loadGifs(topic) {
+		// let theme = "animals"
 		// let url = "https://media1.giphy.com/";
-		let url = "https://api.giphy.com/v1/gifs/search?api_key=c5CF9X0IcrkjEmQ6MkiQE6V7D7oo2QAN&q=" + topic + "&limit=25&offset=0&lang=en"
+		// let url = "https://api.giphy.com/v1/gifs/search?api_key=c5CF9X0IcrkjEmQ6MkiQE6V7D7oo2QAN&q=" + theme + "+" + topic.replace(" ", "+") + "&limit="+ app.gifLimit + "&offset=0&lang=en"
+		let url = "https://api.giphy.com/v1/gifs/search?api_key=c5CF9X0IcrkjEmQ6MkiQE6V7D7oo2QAN&q=" + topic.replace(" ", "+") + "&limit="+ app.gifLimit + "&offset=0&lang=en"
 		// $(".images-container").empty().text("Loading images...");
 		let key = topic.toLowerCase().replace(/ /g, "");
 		let paneID = "tab-pane-" + key;
@@ -393,7 +396,25 @@ let GiphyApp = class {
 	}
 }
 
+$("#options-submit").on("click", function(e) {
+	e.preventDefault();
+	var val = $("#rangeinput").val();
+	app.gifLimit = val;
+	$("#optionsModal").modal("hide");
+})
 
+// for slider, modified from https://stackoverflow.com/questions/24463678/where-can-i-find-bootstrap-styles-for-html5-range-inputs
+$("#rangeinput").on("change", function(e) {
+	// console.log($(this).val());
+	$(this).val($(this).val());
+// onchange="rangevalue.value=value"
+
+})
+
+$("#rangeinput").on("mousemove", function(e) {
+	// if ()
+	$("#rangevalue").text($(this).val())
+})
 
 $(document).ready(function() {
 	app = new GiphyApp();
