@@ -139,16 +139,25 @@ let GiphyApp = class {
 		// console.log($(this));
 		event.preventDefault();
 		let newTopic = $("#new-topic").val().trim();
-		$("#search-box-x").addClass("disabled")
 		console.log(newTopic);
 		if (newTopic.trim().length > 0) {
 			if (app.topics.filter(topic => topic.toLowerCase().replace(/ /, "") === newTopic.toLowerCase().replace(/ /, "")).length < 1) {
 				app.topics.push(newTopic);
 				// $("#new-topic").attr("value", "");
 				$("#new-topic").val("");
-				// $("input").val("");
+				$("#search-box-x").addClass("disabled")
+				$("#new-topic").removeClass("is-invalid");
 				app.renderTopicButtons();
 			}
+			else {
+				$("#new-topic").addClass("is-invalid")
+				$("#topic-search-feedback-message").text("That topic is already listed!")
+
+			}
+		}
+		else {
+			$("#new-topic").addClass("is-invalid")
+			$("#topic-search-feedback-message").text("Please enter text for a topic!")
 		}
 
 	}
@@ -232,20 +241,25 @@ let GiphyApp = class {
 		let cardBody = $("<div>").addClass("card-body");
 		// cardBody.append($("<i>").addClass("fa fa-close").attr( "aria-hidden", true).attr("id", "search-box-x"));
 
-		cardBody.append($("<form>").addClass("form-group").
-			append($("<div>").addClass("form-group")
+		cardBody.append($("<form>").addClass("form-group")
+			.prop("novalidate", true)
+			.attr("id", "topic-search-form")
+			.append($("<div>").addClass("form-group")
 				.append($("<input>").addClass("form-control form-control-lg ")
 					.attr("type", "text").attr("id", "new-topic").attr("placeholder", "Topic to add")
 					// .css({"position": "relative"})
-
-					)
+					// .prop("required", true)
+				)
 				.append($("<span>").addClass("clear-search fa fa-close disabled").attr("id", "search-box-x")
 					// .html("<i class=\"fa fa-close\" aria-hidden=\"true\"></i>")
-					)
-
 				)
-			.append($("<button>").addClass("btn btn-info square topic-search-button").
-				html("<i class=\"fa fa-search\" aria-hidden=\"true\"></i>&nbsp;&nbsp; Add topic")
+				.append($("<div>").addClass("invalid-feedback")
+					.text("Please enter a valid topic.")
+					.attr("id", "topic-search-feedback-message")
+				)
+			)
+			.append($("<button>").addClass("btn btn-info square topic-search-button")
+				.html("<i class=\"fa fa-search\" aria-hidden=\"true\"></i>&nbsp;&nbsp; Add topic")
 				// text("Add topic").
 				.attr("autofocus", true).attr("type", "submit")));
 

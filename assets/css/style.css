@@ -200,6 +200,10 @@ body {
 }
 */
 
+input.is-invalid {
+	border-width: 4px;
+}
+
 
 /*.images-container figure {
 	position: relative;
