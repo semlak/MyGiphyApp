@@ -8,26 +8,8 @@ body {
 	/*background-image: "./assets/images/order-of-phoenix.jpg";*/
 	/*background-image: url("../images/order-of-phoenix.jpg");*/
 	background-attachment: fixed;
-
+	background: #000;
 }
-
-
-
-.main-content, .sidebar {
-	background: #fff;
-	padding: 20px;
-	border: 1px solid #ddd;
-	border-radius: .25rem;
-	margin-top: 40px;
-}
-
-
-
-
-/*.card-header {
-	background: #fff;
-}
-*/
 
 
 .container.wrapper {
@@ -57,18 +39,22 @@ body {
 
 
 
-#new-topic {
-	/*display: inline-block;*/
+/* the border for the topic search form input is difficult to see, so when invalid, increase border width */
+input.is-invalid {
+
+	border-width: 4px;
 }
 
+
+
+/* position an "x" button at end of search-box-input to let user clear the input */
 #search-box-x {
 	position: absolute;
 	right: 30px;
 	top: 95px;
-	/*display: inline-block;*/
-	/*height: 0px;*/
 }
 
+/* The place holder text for a form-input for my bootstrap theme is not dim. Adjust*/
 #new-topic::placeholder, #new-topic::placeholder,
 #new-topic::-webkit-input-placeholder
 {
@@ -89,14 +75,23 @@ body {
 }
 
 
+
+/* .images-container will be inside a tab pane and contain all of the image cards for that topic*/
+/* .images-container will typically fill up most of the page */
+
+#images-tab-bar {
+	margin-top: .5em;
+}
+
 .images-container {
 	width: 100%;
 	box-sizing: border-box;
 	margin-top: 15px;
-	margin-left: 15px;
-	margin-right: 15px;
-	/*background: #000;*/
+	/*margin-left: 15px;*/
+	/*margin-right: 15px;*/
 }
+
+
 
 .images-container .card {
 	/*margin-top: 20px;*/
@@ -115,19 +110,6 @@ body {
 }
 
 
-.gif-rating {
-	background-color: #000 ;
-	color: #fff;
-}
-
-.images-container .card-body {
-	padding:0;
-	margin-bottom: 0;
-}
-
-.images-container .card-text {
-	/*padding: .5em;*/
-}
 
 #images-tab-bar.hidden {
 	display: none;
@@ -154,33 +136,26 @@ body {
 
 }
 
-.images-container .gif {
-	/*position: relative;*/
-}
 
 
-.images-container .gif-card .overlay {
-	/*position: absolute;*/
-	bottom: 0px;
-	/*opacity: 0;*/
-	/*width: 100%;*/
+.gif-rating {
 	background-color: #000 ;
 	color: #fff;
 }
+
+.images-container .card-body {
+	padding:0;
+	margin-bottom: 0;
+}
+
 
 .gif-card {
 	position: relative;
 	width: 100%;
 }
-/*
-.gif-card:before {
-	content: "";
-	display: block;
-	padding-top: 100%;
 
-}
-*/
-.gif-card .gif{
+
+.gif-card .gif {
 	width: 100%;
 	position:  absolute;
 	top: 0;
@@ -189,76 +164,13 @@ body {
 	right: 0;
 }
 
+.gif-card .card-body .image-loaded {
+	background: #000!important;
+}
+
 .image-wrapper {
 	position: relative;
-	/*width*/
 }
-
-
-/*.images-container .gif .overlay.hovered {
-	opacity: .5;
-}
-*/
-
-input.is-invalid {
-	border-width: 4px;
-}
-
-
-/*.images-container figure {
-	position: relative;
-}
-.images-container figure .overlay {
-	position: absolute;
-	bottom: 0px;
-	opacity: 0;
-	width: 100%;
-	background-color: #000 ;
-	color: #fff;
-}
-
-.images-container figure .overlay.hovered {
-	opacity: .5;
-}
-*/
-/* Sticky footer styles
--------------------------------------------------- */
-/*from http://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/*/
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 105px;
-}
-
-
-
-.footer {
-	/*padding: 30px 0;*/
-	clear: both;
-	font-size: 12px;
-
-	color: #000;
-	text-align: center;
-	/*background: #666;*/
-	/*background: #2C3E50;*/
-	/*border-top: 8px solid #18BC9C;*/
-	/*border-top: 8px solid #333;*/
-	box-sizing: border-box;
-
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-
-
-	/* Set the fixed height of the footer here */
-	height: 105px;
-	line-height: 92px;
-}
-
 
 
 
@@ -267,24 +179,13 @@ body {
 }
 
 
-/* header/navbar */
-
-.nav-link {
-/*
-	When navbar switches to collapsed, it's height decreased a bit due to the nav links (and their top and bottom padding) no longer being there.
-	However, removing the nav-link top and bottom padding doesn't seem result in unpleasant display, and it prevents the changing navbar size when collapse, so remove nav-link top/bottom padding
-*/
-	padding-top: 0;
-	padding-bottom: 0;
-}
-
 
 /* range slider. https://stackoverflow.com/questions/24463678/where-can-i-find-bootstrap-styles-for-html5-range-inputs*/
 #slider {
   width: 400px;
   height: 17px;
   position: relative;
-  margin: 100px auto;
+  margin: 10px auto;
   background: #10171D;
   -webkit-border-radius: 40px;
   -moz-border-radius: 40px;

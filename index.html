@@ -2,20 +2,18 @@
 <html lang="en">
 	<head>
 		<title>My Awesosme Giphy App</title>
-		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 
 		<!-- Bootstrap CSS -->
-		<!-- <link rel="stylesheet" type="text/css" href="./assets/css/litera-bootstrap.min.css"> -->
 		<link rel="stylesheet" type="text/css" href="./assets/css/cyborg-bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
 		<header>
-			<nav id="page-navbar" class="navbar fixed-top navbar-light bg-light navbar-expand-md">
+			<nav id="page-navbar" class="navbar fixed-top navbar-dark bg-info navbar-expand-md">
 				<div class="container">
 					<a class="navbar-brand" href="#">My Awesome Giphy App</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,13 +23,13 @@
 					<div class="collapse navbar-collapse" id="navbarNavDropdown">
 						<ul class="nav nav-pills navbar-nav ml-auto">
 							<li class="nav-item">
-								<button type="button" class="btn btn-secondary btn-square" id="options-button" data-toggle="modal" data-target="#helpModal">Help</button>
+								<button type="button" class="btn btn-secondary square" id="options-button" data-toggle="modal" data-target="#helpModal">Help</button>
 							</li>
 							<li class="nav-item">
-								<button type="button" class="btn btn-secondary btn-square" id="options-button" data-toggle="modal" data-target="#optionsModal">Options</button>
+								<button type="button" class="btn btn-secondary square" id="options-button" data-toggle="modal" data-target="#optionsModal">Options</button>
 							</li>
 							<li class="nav-item">
-								<button type="button" class="btn btn-danger btn-square" id="reset-button">Reset</button>
+								<button type="button" class="btn btn-danger square" id="reset-button">Reset Topics</button>
 							</li>
 						</ul>
 					</div>
@@ -63,8 +61,7 @@
 						</ul>
 					</div>
 					<div class="modal-footer">
-						<!-- <button type="button" class="btn btn-secondary text-center" data-dismiss="modal">Close</button> -->
-						<button type="button" class="btn btn-primary" data-dismiss="modal">Okay!</button>
+						<button type="button" class="btn btn-primary square" data-dismiss="modal">Okay!</button>
 					</div>
 				</div>
 			</div>
@@ -82,14 +79,12 @@
 						<form>
 						  <div class="form-group">
 						    <label for="gifResultLimit">Number of GIFs to return</label>
-						    <!-- <input type="range" min="1" max="25"> -->
-<div id="slider">
-	<input class="bar" type="range" id="rangeinput" value="20"/>
-	<span class="highlight"></span>
-	<output id="rangevalue">20</output>
-</div>
-							<!-- <input id="result-limit-slider" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="40" data-slider-step="1" data-slider-value="10"/> -->
-							<small id="slider-help" class="form-text text-muted">You can set the number of gifs initially displayed after clicking the topic.</small>
+							<div id="slider">
+								<input class="bar" type="range" id="rangeinput" value="10" min="1" max="50"/>
+								<span class="highlight"></span>
+								<output id="rangevalue">10</output>
+							</div>
+							<small id="slider-help" class="form-text text-muted">You can set the number of gifs initially displayed after clicking the topic. Does not apply to existing tabs.</small>
 
 						  </div>
 					</form>
@@ -97,39 +92,21 @@
 
 					</div>
 					<div class="modal-footer">
-						<!-- <button type="button" class="btn btn-secondary text-center" data-dismiss="modal">Close</button> -->
-						<button type ="button" id="options-submit" class="btn btn-primary sqr">Submit</button>
+						<button type ="button" id="options-submit" class="btn btn-primary square">Submit</button>
 
-						<button type="button" class="btn btn-danger sqr" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-danger square" data-dismiss="modal">Cancel</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
-<!-- 		<footer class="footer bg-light">
-			<div class="row">
-				<div class="container">
-					Copyright &copy; 2017 Joseph Semlak
-				</div>
-			</div>
-		</footer> -->
 
-
-
-
-		<!-- End of site content - Optional JavaScript -->
+		<!-- End of site content -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous"></script>
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script> -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script> -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.js" crossorigin="anonymous"></script> -->
-		<!-- <script src="./assets/javascript/bootstrap.js"></script> -->
 		<script src="./assets/javascript/app.js"></script>
 	</body>
 </html>
