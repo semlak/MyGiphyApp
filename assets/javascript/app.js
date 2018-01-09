@@ -340,7 +340,7 @@ let GiphyApp = class {
 			return;
 		}
 
-		let newPaneID = this.appendNewTabToImageTabBarAndPane(topic, "Retrieving image data...")
+		let newPaneID = this.appendNewTabToImageTabBarAndPane(topic, "Retrieving image...")
 		let url = "https://api.giphy.com/v1/gifs/search?api_key=c5CF9X0IcrkjEmQ6MkiQE6V7D7oo2QAN&q=" +
 			topic.replace(" ", "+") + "&limit="+ app.gifLimit + "&offset=0&lang=en"
 
